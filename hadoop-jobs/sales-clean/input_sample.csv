@@ -1,0 +1,6 @@
+timestamp,item,quantity,price,total
+2025-01-01 10:12:04,Samosa,2,15,30
+2025-01-01 10:15:14,Tea,1,10,10
+2025-01-01 10:20:05,Vada Pav,1,20,20
+BAD LINE HERE
+2025-01-01 10:30:20,Pasta,1,50,50
