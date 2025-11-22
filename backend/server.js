@@ -8,7 +8,10 @@ app.use(express.json());
 
 app.use("/api/sales", salesRoutes);
 
-app.get("/", (req, res) => res.send("Smart Canteen API Running"));
+app.get("/", (req, res) => {
+  res.send("Smart Canteen API running");
+});
 
-const PORT = 5000;
-app.listen(PORT, () => console.log(`🚀 Backend running on port ${PORT}`));
+app.listen(5000, () => {
+  console.log("Backend running on port 5000");
+});
