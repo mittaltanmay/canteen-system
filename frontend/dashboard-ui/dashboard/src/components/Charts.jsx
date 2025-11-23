@@ -7,7 +7,7 @@ import {
 export default function Charts({ orders }) {
   // revenue per item
   const totals = {};
-  orders.forEach(o => {
+  orders.slice(0,100).forEach(o => {
     totals[o.item] = (totals[o.item] || 0) + o.total;
   });
   const revenueData = Object.keys(totals).map(k => ({
@@ -24,7 +24,7 @@ export default function Charts({ orders }) {
   return (
     <div>
       <h4>Top Items (by revenue)</h4>
-      <BarChart width={500} height={250} data={revenueData}>
+      <BarChart width={500} height={300} data={revenueData}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="item" />
         <YAxis />
@@ -33,7 +33,7 @@ export default function Charts({ orders }) {
       </BarChart>
 
       <h4 style={{ marginTop: "30px" }}>Sales Over Time</h4>
-      <LineChart width={500} height={250} data={timeData}>
+      <LineChart width={600} height={300} data={timeData}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="time" />
         <YAxis />

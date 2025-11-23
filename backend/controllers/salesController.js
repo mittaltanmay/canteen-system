@@ -2,32 +2,47 @@ const { exec } = require("child_process");
 
 exports.getProcessedSales = (req, res) => {
   exec(`hdfs dfs -ls /salesprocessed`, (err, stdout) => {
-    if (err) return res.json([]);
+    if (err || !stdout) {
+      console.error("❌ Folder listing failed:", err?.message);
+      return res.json([]);
+    }
 
-    const folders = stdout
+    let folders = stdout
       .split("\n")
-      .filter(line => line.includes("run-"))
-      .map(line => line.split(" ").pop());
+      .map(l => l.trim())
+      .filter(l => l.includes("run-"))
+      .map(l => l.split(/\s+/).pop().replace(/\r/g, ""))
+      .filter(Boolean);
 
-    if (folders.length === 0) return res.json([]);
+    if (folders.length === 0) {
+      return res.json([]);
+    }
+
+    // Only last 5 runs
+    folders = folders.slice(-5);
 
     let allData = [];
     let pending = folders.length;
 
     folders.forEach(folder => {
-      exec(`hdfs dfs -cat ${folder}/part-r-00000`, (err2, fileData) => {
-        if (!err2 && fileData.trim() !== "") {
+      const filePath = `${folder}/part-r-00000`;
 
+      exec(`hdfs dfs -cat ${filePath}`, (err2, fileData) => {
+        if (!err2 && fileData && fileData.trim()) {
           fileData
             .trim()
             .split("\n")
             .forEach(line => {
+              if (!line || line.includes("_COPYING_")) return;
+
               const [timestamp, record] = line.split("\t");
+              if (!timestamp || !record) return;
+
               const [item, qty, price, total] = record.split(",");
 
               allData.push({
-                timestamp,
-                item,
+                timestamp: timestamp.trim(),
+                item: item.trim(),
                 qty: Number(qty),
                 price: Number(price),
                 total: Number(total)

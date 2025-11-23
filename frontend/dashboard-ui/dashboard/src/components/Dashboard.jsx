@@ -17,10 +17,8 @@ export default function Dashboard() {
         console.error("Fetch error:", err.message);
       }
     }
-
     // initial load
     fetchData();
-
     // refresh every 5 sec
     const interval = setInterval(fetchData, 5000);
 

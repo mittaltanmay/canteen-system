@@ -13,7 +13,7 @@ export default function LatestOrders({ orders }) {
         </tr>
       </thead>
       <tbody>
-        {orders.map((o, idx) => (
+        {orders.slice(0,10).map((o, idx) => (
           <tr key={idx}>
             <td>{o.timestamp}</td>
             <td>{o.item}</td>
