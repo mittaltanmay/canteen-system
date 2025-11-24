@@ -1,19 +1,17 @@
 
-# Real-Time Sales Analytics (Big Data Extension)
+# Real-Time Sales Analytics
 
-This project extends the original **Canteen Ordering System** by adding a complete **Real-Time Sales Analytics Pipeline** using **Apache Kafka, Hadoop (HDFS), YARN, and MapReduce**, along with a backend API and a live analytics dashboard.
+Real-Time Sales Analytics Pipeline using Apache Kafka, Hadoop (HDFS), YARN, and MapReduce, along with a backend API and a live analytics dashboard.
 
 ---
 
-## What This Add-On Does
-
 We built a real-time analytics system that:
 
-- Streams every user order via **Kafka**
-- Stores raw data safely in **HDFS**
-- Processes large-scale sales data using **MapReduce**
+- Streams every user order via Kafka
+- Stores raw data safely in HDFS
+- Processes large-scale sales data using MapReduce
 - Generates insights (top-selling items, revenue, hourly sales)
-- Shows analytics live in the **frontend dashboard**
+- Shows analytics live in the frontend dashboard
 
 ---
 
@@ -21,7 +19,7 @@ We built a real-time analytics system that:
 
 **Pipeline Flow:**
 
-User Order → Backend → Kafka → HDFS → MapReduce → Analytics Output → Backend API → Frontend Dashboard
+User Orders -> kafka → HDFS → MapReduce → Backend API -> Frontend Dashboard
 
 ---
 
@@ -41,84 +39,45 @@ User Order → Backend → Kafka → HDFS → MapReduce → Analytics Output →
 
 ### MapReduce (Batch Processing)
 - Worker nodes execute MapReduce jobs to compute:
-  - Total sales
-  - Item-wise order count
-  - Hourly demand
-  - Total revenue
-  - Most sold items
+  - Total sales per Item
+  - Sales Per Time
+  - last 10 Orders
 
-**Sample Output:**
-Burger        120
-Cold Coffee    80
-Paneer Roll    45
-TotalRevenue 18500
+Sample Output:
+Producer and consumer logs
+Mapr reduce processed data folder
 
 ### Backend Analytics API
 Exposes endpoints:
-- `/api/analytics/today`
-- `/api/analytics/weekly`
-- `/api/analytics/top-items`
+/api/sales
 
 ### React Frontend Dashboard
 Displays:
--  Sales graphs  
--  Top-selling products  
--  Real-time revenue  
--  Peak order hours  
-
-
-## Real-Time Pipeline Flow
-
-
-+-------------+       +----------------+       +-------------+
-|  Frontend   |  -->  |    Backend     |  -->  |   Kafka     |
-+-------------+       +----------------+       +-------------+
-                                                         |
-                                                         v
-                                             +----------------------+
-                                             |         HDFS         |
-                                             +----------------------+
-                                                         |
-                                                         v
-                                             +----------------------+
-                                             |     MapReduce        |
-                                             +----------------------+
-                                                         |
-                                                         v
-                                             +----------------------+
-                                             |   Analytics Output   |
-                                             +----------------------+
-                                                         |
-                                                         v
-                                             +----------------------+
-                                             |   Backend API        |
-                                             +----------------------+
-                                                         |
-                                                         v
-                                             +----------------------+
-                                             |  React Dashboard     |
-                                             +----------------------+
-
-
+-  revenue per item 
+-  Sales per time  
+-  last 10 orders  
 
 
 ## Directory Structure (Big Data Add-On)
 
 canteen-system/
-├── kafka/
-│   ├── producer.py
-│   ├── consumer.py
-├── hadoop/
-│   ├── mapreduce/
-│   │   ├── mapper.py
-│   │   ├── reducer.py
-│   └── scripts/
-│       ├── upload_orders.sh
-│       ├── run_mapreduce.sh
+├── kafka-streaming/
+│   ├── producer:
+           producer.js
+│   ├── consumer:
+           consumer.js
+├── hadoop-jobs/
+│   ├── sales-clean/
+│      ├── input-sales.csv
+│      ├── SalesCleanMapper.java
+│      ├── SalesCleanDriver.java
+│      ├── SalesCleanReducer.java
 ├── backend/
-│   ├── analytics_controller.js
+|   |--nodebackend:
+          auto-run\trigger-mapreduce.js  
+│   ├── server.js
 ├── frontend/
-│   ├── views/analytics_dashboard.jsx
+│   ├── dashboard-ui/dashboard/dashboard.jsx
 
 
 ## Summary
