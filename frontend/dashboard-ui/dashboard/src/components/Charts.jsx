@@ -29,11 +29,11 @@ export default function Charts({ orders }) {
         <XAxis dataKey="item" />
         <YAxis />
         <Tooltip />
-        <Bar dataKey="revenue" />
+        <Bar dataKey="revenue" fill="#4f46e5"/>
       </BarChart>
 
       <h4 style={{ marginTop: "30px" }}>Sales Over Time</h4>
-      <LineChart width={600} height={300} data={timeData}>
+      <LineChart width={650} height={300} data={timeData}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="time" />
         <YAxis />
