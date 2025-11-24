@@ -5,8 +5,6 @@ Real-Time Sales Analytics Pipeline using Apache Kafka, Hadoop (HDFS), YARN, and 
 
 ---
 
-## What This Add-On Does
-
 We built a real-time analytics system that:
 
 - Streams every user order via Kafka
