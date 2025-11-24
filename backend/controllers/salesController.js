@@ -1,9 +1,12 @@
 const { exec } = require("child_process");
 
 exports.getProcessedSales = (req, res) => {
-  exec(`hdfs dfs -ls /salesprocessed`, (err, stdout) => {
-    if (err || !stdout) {
-      console.error("❌ Folder listing failed:", err?.message);
+
+  exec(`hdfs dfs -ls /salesprocessed`, (err, stdout, stderr) => {
+
+    // Windows often sends harmless warnings to stderr → so ignore stderr completely
+    if (!stdout || stdout.trim() === "") {
+      console.error("❌ HDFS returned no output");
       return res.json([]);
     }
 
@@ -15,10 +18,11 @@ exports.getProcessedSales = (req, res) => {
       .filter(Boolean);
 
     if (folders.length === 0) {
+      console.log("⚠ No run folders found");
       return res.json([]);
     }
 
-    // Only last 5 runs
+    // Use only last 5 runs
     folders = folders.slice(-5);
 
     let allData = [];
@@ -27,8 +31,10 @@ exports.getProcessedSales = (req, res) => {
     folders.forEach(folder => {
       const filePath = `${folder}/part-r-00000`;
 
-      exec(`hdfs dfs -cat ${filePath}`, (err2, fileData) => {
-        if (!err2 && fileData && fileData.trim()) {
+      exec(`hdfs dfs -cat ${filePath}`, (err2, fileData, stderr2) => {
+
+        // again: ignore stderr, only check stdout
+        if (fileData && fileData.trim()) {
           fileData
             .trim()
             .split("\n")
@@ -53,7 +59,7 @@ exports.getProcessedSales = (req, res) => {
         pending--;
         if (pending === 0) {
           allData.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-          res.json(allData);
+          return res.json(allData);
         }
       });
     });
