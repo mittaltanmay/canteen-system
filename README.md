@@ -41,25 +41,25 @@ User Orders -> kafka → HDFS → MapReduce → Backend API -> Frontend Dashboar
 - Worker nodes execute MapReduce jobs to compute:
   - Total sales per Item
   - Sales Per Time
-  - last 10 Orders
+  - Last 10 Orders
 
-Sample Output:
+**Sample Output:**
 Producer and consumer logs
-Mapr reduce processed data folder
+MapReduce processed data folder
 
 ### Backend Analytics API
-Exposes endpoints:
-/api/sales
+-Exposes endpoints:
+  -`/api/sales`
 
 ### React Frontend Dashboard
 Displays:
--  revenue per item 
--  Sales per time  
--  last 10 orders  
+-  Revenue per Item 
+-  Sales Per Time  
+-  Last 10 Orders  
 
 
 ## Directory Structure (Big Data Add-On)
-
+```
 canteen-system/
 ├── kafka-streaming/
 │   ├── producer:
@@ -78,7 +78,7 @@ canteen-system/
 │   ├── server.js
 ├── frontend/
 │   ├── dashboard-ui/dashboard/dashboard.jsx
-
+```
 
 ## Summary
 
