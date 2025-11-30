@@ -29,7 +29,7 @@ export default function Dashboard() {
     <div className="dashboard-grid">
       <section className="left">
         <div className="card">
-          <h3>All Orders</h3>
+          <h3>10 latest Orders</h3>
           <LatestOrders orders={orders} />
         </div>
       </section>
